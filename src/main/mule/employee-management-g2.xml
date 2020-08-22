@@ -181,16 +181,17 @@ output application/json
         </ee:transform>
     </flow>
     <flow name="post:\Employees:application\json:employee-management-g2-config">
-        <ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+        <flow-ref doc:name="Flow Reference" doc:id="bd176788-b5d2-40b3-8bbc-d6714ccc88ff" name="addEmployee"/>
+		<ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
             <ee:message>
                 <ee:set-payload><![CDATA[%dw 2.0
 output application/json
 ---
 {
-  employeeId: 10293.0,
-  firstName: "ADAM",
-  lastName: "AEBEBE",
-  department: "Accounting"
+ employeeId: payload.body.AddEmployeeResponse.Employee.id as Number,
+  firstName:payload.body.AddEmployeeResponse.Employee.firstName,
+  lastName: payload.body.AddEmployeeResponse.Employee.lastName,
+  department:payload.body.AddEmployeeResponse.Employee.department
 }]]></ee:set-payload>
             </ee:message>
         </ee:transform>
