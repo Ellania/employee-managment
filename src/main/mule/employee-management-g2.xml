@@ -158,7 +158,21 @@ ns ns0 http://www.cdi.com/employees
         </ee:transform>
     </flow>
     <flow name="get:\Employees:employee-management-g2-config">
-        <logger level="INFO" message="get:\Employees:employee-management-g2-config" />
+		<flow-ref doc:name="Flow Reference" doc:id="6554aa21-03e2-4410-9f78-d7e1b7285548" name="getallemployees"/>
+		<ee:transform doc:name="Transform Message" doc:id="b85f55d1-b62a-4cd7-a0da-f16a0dae60ec" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+ns ns0 http://www.cdi.com/employees
+---
+payload.body.ns0#GetAllEmployeesResponse.*ns0#Employees map ( employee , indexOfEmployee ) -> {
+	firstName: employee.ns0#firstName default "",
+	lastName: employee.ns0#lastName default "",
+	employeeId: employee.ns0#id default 0,
+	department: employee.ns0#department default ""
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
     </flow>
     <flow name="get:\Employees\(Employees_id):employee-management-g2-config">
         <ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core">
@@ -166,16 +180,18 @@ ns ns0 http://www.cdi.com/employees
                 <ee:set-variable variableName="Employees_id">attributes.uriParams.'Employees_id'</ee:set-variable>
             </ee:variables>
         </ee:transform>
-        <ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+        <flow-ref doc:name="Flow Reference" doc:id="47339a4a-6485-478b-92dc-a99c3bed0a9b" name="getemployee"/>
+		<ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
             <ee:message>
                 <ee:set-payload><![CDATA[%dw 2.0
 output application/json
+ns ns0 http://www.cdi.com/employees
 ---
 {
-  employeeId: 10293.0,
-  firstName: "ADAM",
-  lastName: "AEBEBE",
-  department: "Accounting"
+	firstName: payload.body.ns0#GetEmployeeResponse.ns0#Employee.ns0#firstName default "",
+	lastName: payload.body.ns0#GetEmployeeResponse.ns0#Employee.ns0#lastName default "",
+	employeeId: payload.body.ns0#GetEmployeeResponse.ns0#Employee.ns0#id default 0,
+	department: payload.body.ns0#GetEmployeeResponse.ns0#Employee.ns0#department default ""
 }]]></ee:set-payload>
             </ee:message>
         </ee:transform>
