@@ -156,6 +156,16 @@ ns ns0 http://www.cdi.com/employees
                 <ee:set-variable variableName="Employees_id">attributes.uriParams.'Employees_id'</ee:set-variable>
             </ee:variables>
         </ee:transform>
+		<flow-ref doc:name="Flow Reference" doc:id="7860b143-b27e-448c-8cfd-312866af2325" name="deleteEmployee"/>
+		<ee:transform doc:name="Transform Message" doc:id="5609ac6d-e838-4bc5-8987-5af1cc08925c" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
     </flow>
     <flow name="get:\Employees:employee-management-g2-config">
 		<flow-ref doc:name="Flow Reference" doc:id="6554aa21-03e2-4410-9f78-d7e1b7285548" name="getallemployees"/>

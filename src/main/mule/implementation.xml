@@ -66,6 +66,22 @@ ns ns0 http://www.cdi.com/employees
 		</ee:transform>
 		<wsc:consume operation="GetAllEmployees" doc:name="Consume" doc:id="0c6051d7-826d-4098-9a23-8cf5cf4b7b0c" config-ref="Web_Service_Consumer_Config"/>
 	</flow>
+	<flow name="deleteEmployee" doc:id="68f1835e-41e1-464d-9f0c-6bcf0537bd02" >
+		<ee:transform doc:name="Transform Message" doc:id="46940987-d4b3-45ec-a8eb-e08b72a0e9d2" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/xml
+ns ns0 http://www.cdi.com/employees
+---
+{
+	ns0#DeleteEmployeeRequest: {
+		ns0#id: vars.Employees_id as Number
+	}
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<wsc:consume operation="DeleteEmployee" doc:name="Consume" doc:id="4f31ebf8-4120-4583-bcbc-f9f5fba7b60b" config-ref="Web_Service_Consumer_Config"/>
+	</flow>
 	<flow name="getemployee" doc:id="53ca22e2-be48-439a-9bd3-73cc7cafdb7c" >
 		<ee:transform doc:name="Transform Message" doc:id="3bf58521-a0fb-4dbc-8311-fe9826efc67c" >
 			<ee:message >
