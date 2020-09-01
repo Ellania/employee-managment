@@ -99,6 +99,23 @@ output application/json
                     </ee:variables>
                 </ee:transform>
             </on-error-propagate>
+			<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="8ceca68b-a9f8-41bb-8303-1559dc3f124e" type="APP:NO_SERVER">
+				<logger level="INFO" doc:name="Logger" doc:id="3ccd9b8b-a2d3-4325-8229-1d52664c6e51" message="inside custom errorhandling"/>
+				<ee:transform doc:name="Transform Message" doc:id="860e08f8-f19b-4247-b353-84bca8d518d3" >
+					<ee:message >
+						<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	NS:"503",
+	message: "NO_SERVER"
+}]]></ee:set-payload>
+					</ee:message>
+					<ee:variables >
+						<ee:set-variable variableName="httpStatus" ><![CDATA[503]]></ee:set-variable>
+					</ee:variables>
+				</ee:transform>
+			</on-error-propagate>
         </error-handler>
     </flow>
     <flow name="employee-management-g2-console">
