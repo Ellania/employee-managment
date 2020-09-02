@@ -86,6 +86,7 @@ ns ns0 http://www.cdi.com/employees
 		</ee:transform>
 		<wsc:consume operation="DeleteEmployee" doc:name="Consume" doc:id="4f31ebf8-4120-4583-bcbc-f9f5fba7b60b" config-ref="Web_Service_Consumer_Config">
 			<error-mapping sourceType="WSC:CONNECTIVITY" targetType="APP:NO_SERVER" />
+			<error-mapping sourceType="WSC:BAD_REQUEST" targetType="APP:DOESN'T_EXIST" />
 		</wsc:consume>
 	</flow>
 	<flow name="getemployee" doc:id="53ca22e2-be48-439a-9bd3-73cc7cafdb7c" >
@@ -104,6 +105,7 @@ ns ns0 http://www.cdi.com/employees
 		</ee:transform>
 		<wsc:consume operation="GetEmployee" doc:name="getemployee" doc:id="a501db93-83f4-46fd-a40a-7a56123d8f04" config-ref="Web_Service_Consumer_Config" >
 			<error-mapping sourceType="WSC:CONNECTIVITY" targetType="APP:NO_SERVER" />
+			<error-mapping sourceType="WSC:BAD_REQUEST" targetType="APP:DOESN'T_EXIST" />
 		</wsc:consume>
 	</flow>
 	
