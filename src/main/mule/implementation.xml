@@ -5,6 +5,16 @@
 	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
 http://www.mulesoft.org/schema/mule/wsc http://www.mulesoft.org/schema/mule/wsc/current/mule-wsc.xsd">
+	<wsc:config name="Web_Service_Consumer_Config_Dev" doc:name="Web Service Consumer Config" doc:id="929609a2-2465-48a0-a5c7-ee8136218636" >
+		<wsc:connection wsdlLocation="http://34.86.63.32:6061/ws/employees.wsdl" service="EmployeePortService" port="EmployeePortSoap11"/>
+	</wsc:config>
+	<wsc:config name="Web_Service_Consumer_Config_Test" doc:name="Web Service Consumer Config" doc:id="c6e33e0a-184d-41dc-8cc9-91d3cc575452" >
+		<wsc:connection wsdlLocation="http://34.86.63.32:6062/ws/employees.wsdl" service="EmployeePortService" port="EmployeePortSoap11" address="http://34.86.63.32:6062/ws" />
+	</wsc:config>
+	<wsc:config name="Web_Service_Consumer_Config_Prod" doc:name="Web Service Consumer Config" doc:id="142aec22-876c-4f2b-bd85-b718771607da" >
+		<wsc:connection wsdlLocation="http://34.86.63.32:6063/ws/employees.wsdl" service="EmployeePortService" port="EmployeePortSoap11" address="http://34.86.63.32:6063/ws" />
+	</wsc:config>
+	<configuration-properties doc:name="Configuration properties" doc:id="27f2fcbd-819f-457a-89b7-1c803b5a4790" file="soap_service_${env}.yaml" />
 	<flow name="updateFlwo" doc:id="145d23de-a38b-4234-9831-a23fc880c526" >
 		<ee:transform doc:name="Transform Message" doc:id="dfb8d5d6-e216-43e1-aa19-26503da08d14" >
 			<ee:message >
@@ -24,7 +34,7 @@ ns ns0 http://www.cdi.com/employees
 }]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
-		<wsc:consume operation="UpdateEmployee" doc:name="Consume" doc:id="66871eaa-773c-418a-8f2e-3d5798f16422" config-ref="Web_Service_Consumer_Config">
+		<wsc:consume operation="UpdateEmployee" doc:name="Consume" doc:id="66871eaa-773c-418a-8f2e-3d5798f16422" config-ref="${soap.wsdl}" >
 			<error-mapping sourceType="WSC:CONNECTIVITY" targetType="APP:NO_SERVER" />
 		</wsc:consume>
 	</flow>
@@ -47,7 +57,7 @@ ns ns0 http://www.cdi.com/employees
 }]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
-		<wsc:consume doc:name="Consume" doc:id="7ed0b4bf-4605-48c7-b5ef-652a9eda50a7" config-ref="Web_Service_Consumer_Config" operation="AddEmployee">
+		<wsc:consume doc:name="Consume" doc:id="7ed0b4bf-4605-48c7-b5ef-652a9eda50a7" config-ref="${soap.wsdl}" operation="AddEmployee">
 			<error-mapping sourceType="WSC:CONNECTIVITY" targetType="APP:NO_SERVER" />
 		</wsc:consume>
 	</flow>
@@ -66,7 +76,7 @@ ns ns0 http://www.cdi.com/employees
 }]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
-		<wsc:consume operation="GetAllEmployees" doc:name="Consume" doc:id="0c6051d7-826d-4098-9a23-8cf5cf4b7b0c" config-ref="Web_Service_Consumer_Config">
+		<wsc:consume operation="GetAllEmployees" doc:name="Consume" doc:id="0c6051d7-826d-4098-9a23-8cf5cf4b7b0c" config-ref="${soap.wsdl}">
 			<error-mapping sourceType="WSC:CONNECTIVITY" targetType="APP:NO_SERVER" />
 		</wsc:consume>
 	</flow>
@@ -84,8 +94,9 @@ ns ns0 http://www.cdi.com/employees
 }]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
-		<wsc:consume operation="DeleteEmployee" doc:name="Consume" doc:id="4f31ebf8-4120-4583-bcbc-f9f5fba7b60b" config-ref="Web_Service_Consumer_Config">
+		<wsc:consume operation="DeleteEmployee" doc:name="Consume" doc:id="4f31ebf8-4120-4583-bcbc-f9f5fba7b60b" config-ref="${soap.wsdl}">
 			<error-mapping sourceType="WSC:CONNECTIVITY" targetType="APP:NO_SERVER" />
+			<error-mapping sourceType="WSC:BAD_REQUEST" targetType="APP:DOESN'T_EXIST" />
 		</wsc:consume>
 	</flow>
 	<flow name="getemployee" doc:id="53ca22e2-be48-439a-9bd3-73cc7cafdb7c" >
@@ -102,8 +113,9 @@ ns ns0 http://www.cdi.com/employees
 }]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
-		<wsc:consume operation="GetEmployee" doc:name="getemployee" doc:id="a501db93-83f4-46fd-a40a-7a56123d8f04" config-ref="Web_Service_Consumer_Config" >
+		<wsc:consume operation="GetEmployee" doc:name="getemployee" doc:id="a501db93-83f4-46fd-a40a-7a56123d8f04" config-ref="${soap.wsdl}" >
 			<error-mapping sourceType="WSC:CONNECTIVITY" targetType="APP:NO_SERVER" />
+			<error-mapping sourceType="WSC:BAD_REQUEST" targetType="APP:DOESN'T_EXIST" />
 		</wsc:consume>
 	</flow>
 	
