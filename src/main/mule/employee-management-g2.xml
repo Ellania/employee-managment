@@ -116,7 +116,7 @@ output application/json
 					</ee:variables>
 				</ee:transform>
 			</on-error-propagate>
-			<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="9d70b5f4-85a3-457a-97dd-89ea67e3901f" >
+			<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="9d70b5f4-85a3-457a-97dd-89ea67e3901f">
 				<logger level="INFO" doc:name="Logger" doc:id="e7442532-4065-43ef-97bc-e17986769580" message="second_ inside custom errorhandling "/>
 				<ee:transform doc:name="Transform Message" doc:id="e85de328-9a9b-4076-a4c3-189727df8168" >
 					<ee:message >
